@@ -21,8 +21,8 @@
   (async-shell-command "update-nixos"))
 
 (map! :leader
-      "r h" '+nix/home-manager-switch
-      "r n" '+nix/nixos-rebuild-switch)
+      "h r h" '+nix/home-manager-switch
+      "h r n" '+nix/nixos-rebuild-switch)
 
 (set-popup-rules!
   '(("^\\*Async" :slot -1 :modeline f)))
