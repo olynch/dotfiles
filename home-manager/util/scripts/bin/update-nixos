@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+cd ~/git/dotfiles
+git add home-manager
+git commit -m 'automatic update'
+git push
+sudo nixos-rebuild switch
