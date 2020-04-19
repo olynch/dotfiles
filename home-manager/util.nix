@@ -18,5 +18,9 @@
 
   services.gpg-agent.enable = true;
 
-  home.packages = [ (pkgs.callPackage ./util/scripts {}) ];
+  home.packages = with pkgs; [
+    (pkgs.callPackage ./util/scripts {})
+    busybox
+    ripgrep
+  ];
 }
