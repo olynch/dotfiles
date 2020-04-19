@@ -47,6 +47,11 @@
     enable = true;
     layout = "us";
     xkbOptions = "caps:escape";
+    windowManager.xmonad = {
+      enable = true;
+      enableContribAndExtras = true;
+      extraPackages = pk: with pk; [ taffybar ];
+    };
     libinput.enable = true;
   };
 
