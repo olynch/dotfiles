@@ -2,8 +2,9 @@
 
 {
   home.packages = with pkgs; [
-    inkscape
     gimp
+    inkscape
+    krita
     mpv
     transmission-gtk
     zathura
