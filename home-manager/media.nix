@@ -2,11 +2,11 @@
 
 {
   home.packages = with pkgs; [
-    evince
     gimp
     inkscape
     krita
     mpv
+    okular
     transmission-gtk
     zathura
   ];
