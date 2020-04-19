@@ -22,5 +22,6 @@
     (pkgs.callPackage ./util/scripts {})
     busybox
     ripgrep
+    htop
   ];
 }
