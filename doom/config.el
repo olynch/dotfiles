@@ -14,7 +14,7 @@
 
 (defun +nix/home-manager-switch ()
   (interactive)
-  (async-shell-command "update-home"))
+  (async-shell-command "home-manager switch"))
 
 (defun +nix/nixos-rebuild-switch ()
   (interactive)
