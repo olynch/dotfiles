@@ -3,6 +3,7 @@
 {
   imports = [
     ./util/X.nix
+    ./util/applets.nix
   ];
 
   programs.gpg.enable = true;
