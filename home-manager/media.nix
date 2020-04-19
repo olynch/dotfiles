@@ -6,6 +6,7 @@
     gimp
     mpv
     transmission-gtk
+    zathura
   ];
 
   programs = {
