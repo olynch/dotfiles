@@ -38,6 +38,10 @@
   services.dbus.packages = [ pkgs.gcr ];
   hardware.bluetooth.enable = true;
 
+  # Non-Nixos
+  virtualisation.docker.enable = true;
+  services.flatpak.enable = true;
+
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
