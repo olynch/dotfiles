@@ -1,8 +1,4 @@
 --------------------------------------------------------------------------------
--- | Example.hs
---
--- Example configuration file for xmonad using the latest recommended
--- features (e.g., 'desktopConfig').
 module Main (main) where
 
 --------------------------------------------------------------------------------
