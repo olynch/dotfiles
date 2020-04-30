@@ -4,6 +4,15 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.timeout = 1;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  environment.variables = {
+    MESA_LOADER_DRIVER_OVERRIDE = "iris";
+  };
+  hardware.opengl.package = (pkgs.mesa.override {
+    galliumDrivers = [ "nouveau" "virgl" "swrast" "iris" ];
+  }).drivers;
 
   networking.hostName = "swantrumpet";
   networking.networkmanager.enable = true;
@@ -38,14 +47,16 @@
   services.dbus.packages = [ pkgs.gcr ];
   hardware.bluetooth.enable = true;
 
-  # Non-Nixos
-  virtualisation.docker.enable = true;
-  services.flatpak.enable = true;
-  xdg.portal.enable = true;
-
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.package = pkgs.pulseaudioFull;
+  programs.dconf.enable = true;
+  services.avahi.enable = true;
+
+  location.latitude = 42.36;
+  location.longitude = 71.09;
+  services.redshift.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver = {

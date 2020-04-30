@@ -7,7 +7,6 @@
   }) {
     doomPrivateDir = ../../../doom;
     extraPackages = epkgs: [ pkgs.ocamlformat ];
-    abortOnNotFound = false;
   };
   services.emacs.enable = true;
 

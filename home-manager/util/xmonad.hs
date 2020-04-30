@@ -4,6 +4,7 @@ module Main (main) where
 --------------------------------------------------------------------------------
 import System.Exit
 import XMonad
+import XMonad.Actions.RotSlaves
 import XMonad.Config.Desktop
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageHelpers
@@ -35,11 +36,6 @@ main = do
 
 --------------------------------------------------------------------------------
 -- | Customize layouts.
---
--- This layout configuration uses two primary layouts, 'ResizableTall'
--- and 'BinarySpacePartition'.  You can also use the 'M-<Esc>' key
--- binding defined above to toggle between the current layout and a
--- full screen layout.
 myLayouts = toggleLayouts (noBorders Full) others
   where
     others = TwoPane (3/100) (1/2)
@@ -57,11 +53,15 @@ myXPConfig = def
 -------------------------------------------------------------------------------
 -- | Customize keybindings
 myKeyBindings = 
-  [ ("M-S-q",   confirmPrompt myXPConfig "exit" (io exitSuccess))
-  , ("M-S-p",     shellPrompt myXPConfig)
-  , ("M-<Esc>", sendMessage (Toggle "Full"))
-  , ("M-q",     restart "xmonad" True)
-  , ("M-S-<Return>", return ())
+  [ ("M-S-q",                  confirmPrompt myXPConfig "exit" (io exitSuccess))
+  , ("M-S-p",                  shellPrompt myXPConfig)
+  , ("M-<Esc>",                sendMessage (Toggle "Full"))
+  , ("M-q",                    restart "xmonad" True)
+  , ("M-S-<Return>",           return ())
+  , ("M-S-j",                  rotSlavesDown)
+  , ("M-S-k",                  rotSlavesUp)
+  , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume 0 -10%")
+  , ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume 0 +10%")
   ] ++
   [("M-p " ++ k, spawn app) | (k,app) <- hotApps]
 
@@ -72,6 +72,8 @@ hotApps =
   , ("t", "alacritty")
   , ("u", "passmenu")
   , ("p", "zathura")
+  , ("a", "astroid")
+  , ("v", "pavucontrol")
   ]
 
 --------------------------------------------------------------------------------

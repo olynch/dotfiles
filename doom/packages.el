@@ -47,3 +47,7 @@
 ;(package! builtin-package :recipe (:branch "develop"))
 
 (package! graphviz-dot-mode)
+(package! org-ref)
+(package! tuareg)
+(package! merlin)
+(package! flycheck-ocaml)

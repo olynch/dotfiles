@@ -79,7 +79,7 @@
        lua               ; one-based indices? one-based indices
        markdown          ; writing docs for people to ignore
        nix               ; I hereby declare "nix geht mehr!"
-       ocaml             ; an objective camel
+       ;; ocaml             ; an objective camel
        (org +jupyter +pandoc +roam)              ; organize your plain life in plain text
        python            ; beautiful is better than ugly
        rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()

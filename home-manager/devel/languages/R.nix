@@ -1,42 +1,39 @@
 { config, lib, pkgs, ... }:
 
-{
-  home.packages = with pkgs; [
-    (rWrapper.override {
-      packages = with pkgs.rPackages; [
-        # Core Tidyverse
-        tidyverse
+pkgs.rWrapper.override {
+  packages = with pkgs.rPackages; [
+    # Core Tidyverse
+    tidyverse
 
-        # Visualization
-        cowplot
+    # Visualization
+    cowplot
 
-        # Finance
-        tidyquant
-        tsibble
+    # Finance
+    tidyquant
+    tsibble
 
-        # Statistics
-        parsnip
-        yardstick
-        kknn
-        kernlab
-        rstan
+    # Statistics
+    parsnip
+    yardstick
+    kknn
+    kernlab
+    rstan
 
-        # Web apps
-        shiny
-        rsconnect
+    # Web apps
+    shiny
+    rsconnect
+    IRkernel
 
-        # Rethinking
-        (buildRPackage {
-          name = "rethinking";
-          src = pkgs.fetchFromGitHub {
-            owner = "rmcelreath";
-            repo = "rethinking";
-            rev = "f393f30dbaba3f5e41dd003c2bfefcb67c235bb9";
-            sha256 = "138k8dhsmkmy1zc0rl2fyf2y2rk3f4ck9j3rz45w5rvfvk2arzf4";
-          };
-          propagatedBuildInputs = [ coda MASS mvtnorm loo shape rstan dagitty ];
-        })
-      ];
+    # Rethinking
+    (buildRPackage {
+      name = "rethinking";
+      src = pkgs.fetchFromGitHub {
+        owner = "rmcelreath";
+        repo = "rethinking";
+        rev = "f393f30dbaba3f5e41dd003c2bfefcb67c235bb9";
+        sha256 = "138k8dhsmkmy1zc0rl2fyf2y2rk3f4ck9j3rz45w5rvfvk2arzf4";
+      };
+      propagatedBuildInputs = [ coda MASS mvtnorm loo shape rstan dagitty ];
     })
   ];
 }

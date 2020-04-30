@@ -1,5 +1,10 @@
 { config, lib, pkgs, ... }:
 
 {
-  programs.fish.enable = true;
+  programs.fish = {
+    enable = true;
+    shellAliases = {
+      e = "emacsclient -c";
+    };
+  };
 }

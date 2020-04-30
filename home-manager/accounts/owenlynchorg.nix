@@ -12,7 +12,7 @@
     smtp.tls.useStartTls = true;
     imap.host = "mx.owenlynch.org";
     astroid.enable = true;
-    astroid.sendMailCommand = "msmtp --account=personal --read-envelope-from --read-recipients";
+    astroid.sendMailCommand = "msmtp --account=owenlynchorg --read-envelope-from --read-recipients";
     folders = {
       drafts = "drafts";
       sent = "sent";

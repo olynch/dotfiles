@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cd ~/git/dotfiles
+git add .
+git commit -m 'autocommit'

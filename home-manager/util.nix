@@ -20,8 +20,10 @@
 
   home.packages = with pkgs; [
     (pkgs.callPackage ./util/scripts {})
-    busybox
-    ripgrep
+    coreutils
     htop
+    ripgrep
+    tldr
+    pavucontrol
   ];
 }

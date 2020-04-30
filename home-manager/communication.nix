@@ -4,6 +4,7 @@
   imports = [
     ./accounts/owenlynchorg.nix
     ./accounts/oclynch888.nix
+    ./accounts/brown.nix
   ];
 
   home.packages = with pkgs; [
@@ -16,4 +17,6 @@
   programs.mbsync.enable = true;
   programs.notmuch.enable = true;
   programs.astroid.enable = true;
+  programs.astroid.externalEditor = "emacsclient -q -c %1";
+  programs.astroid.pollScript = "notmuch new";
 }
