@@ -16,5 +16,8 @@
     graphviz
     ipe
     texmacs
+    nodejs
+    (callPackage ./devel/languages/python.nix {})
+    (callPackage ./devel/languages/R.nix {})
   ];
 }

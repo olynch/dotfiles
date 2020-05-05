@@ -1,6 +1,9 @@
 { config, lib, pkgs, ... }:
 
 {
+  imports = [
+    ./seafile/service.nix
+  ];
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -16,6 +19,23 @@
 
   networking.hostName = "swantrumpet";
   networking.networkmanager.enable = true;
+  # networking.useNetworkd = true;
+
+  networking.wireguard = {
+    enable = true;
+    interfaces.wg0 = {
+      ips = ["10.100.0.42/32"];
+      peers = [
+        {
+          allowedIPs = [ "10.100.0.0/16" ];
+          endpoint = "owenlynch.org:443";
+          publicKey = "h9x943YgpQwLIkBPLkdcrpIWoUwlXDUQ7PuaKVK8Cz4=";
+          persistentKeepalive = 25;
+        }
+      ];
+      privateKey = "ADRvKNzspjuVrCFGEk2C/P49Nt5U8Sw4he7yQeAjhnM=";
+    };
+  };
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -38,7 +58,13 @@
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
+
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if (subject.local) return "yes";
+    });
+  '';
 
   # utility services
   services.printing.enable = true;
@@ -46,6 +72,9 @@
   services.blueman.enable = true;
   services.dbus.packages = [ pkgs.gcr ];
   hardware.bluetooth.enable = true;
+  services.fwupd.enable = true;
+
+  virtualisation.docker.enable = true;
 
   # Enable sound.
   sound.enable = true;
@@ -77,7 +106,7 @@
   users.users.o = {
     isNormalUser = true;
     hashedPassword = "$6$EEGK4jub86F7Y.xm$sz/KWoMyVfMuBlJQA.aqzBaQ39o1UI1Mj4BUtM9jB6hYbGyLE/Pn5uywM.aK/K6oZY3khDlzcjCInxqNjGc4M1";
-    extraGroups = [ "wheel" "docker" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "docker" ];
     shell = "${pkgs.fish}/bin/fish";
   };
 

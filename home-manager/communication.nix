@@ -18,5 +18,9 @@
   programs.notmuch.enable = true;
   programs.astroid.enable = true;
   programs.astroid.externalEditor = "emacsclient -q -c %1";
-  programs.astroid.pollScript = "notmuch new";
+  programs.astroid.pollScript = ''
+    mbsync -a
+    notmuch new
+  '';
+  # services.imapnotify.enable = true;
 }

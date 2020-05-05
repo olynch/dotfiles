@@ -20,6 +20,11 @@
     msmtp.enable = true;
     notmuch.enable = true;
     mbsync.enable = true;
+    imapnotify = {
+        enable = true;
+        onNotify = "${pkgs.isync}/bin/mbsync owenlynchorg";
+        onNotifyPost = "${pkgs.notmuch}/bin/notmuch new && ${pkgs.libnotify}/bin/notify-send 'owenlynch.org mail'";
+    };
     primary = true;
   };
 }

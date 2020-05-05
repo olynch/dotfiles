@@ -16,5 +16,10 @@
     notmuch.enable = true;
     mbsync.enable = true;
     passwordCommand = "cat .mail-passwords/oclynch888@gmail.com";
+    imapnotify = {
+        enable = true;
+        onNotify = "${pkgs.isync}/bin/mbsync owenlynchorg";
+        onNotifyPost = "${pkgs.notmuch}/bin/notmuch new && ${pkgs.libnotify}/bin/notify-send 'oclynch888 mail'";
+    };
   }; 
 }

@@ -51,3 +51,5 @@
 (package! tuareg)
 (package! merlin)
 (package! flycheck-ocaml)
+(package! reason-mode)
+(package! rudel)

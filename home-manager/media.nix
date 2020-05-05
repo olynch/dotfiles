@@ -6,8 +6,10 @@
     inkscape
     krita
     mpv
+    ffmpeg
     okular
     spotify
+    steam
     transmission-gtk
     zathura
   ];

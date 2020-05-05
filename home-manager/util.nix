@@ -7,6 +7,7 @@
   ];
 
   programs.gpg.enable = true;
+  services.gnome-keyring.enable = true;
   programs.home-manager.enable = true;
   programs.password-store = {
     enable = true;
@@ -25,5 +26,7 @@
     ripgrep
     tldr
     pavucontrol
+    gcolor2
+    appimage-run
   ];
 }
