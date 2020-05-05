@@ -1,6 +1,9 @@
 { config, lib, pkgs, ... }:
 
 {
+  imports = [
+    ./seafile.nix
+  ];
   services = {
     blueman-applet.enable = true;
     pasystray.enable = true;

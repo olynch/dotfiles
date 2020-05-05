@@ -28,5 +28,6 @@
     pavucontrol
     gcolor2
     appimage-run
+    seafile-client
   ];
 }
