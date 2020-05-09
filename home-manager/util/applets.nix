@@ -8,6 +8,7 @@
     blueman-applet.enable = true;
     pasystray.enable = true;
     udiskie.enable = true;
+    network-manager-applet.enable = true;
     dunst = {
       enable = true;
       settings = {

@@ -1,9 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [
-    ./seafile/service.nix
-  ];
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -68,6 +65,7 @@
 
   # utility services
   services.printing.enable = true;
+  services.printing.drivers = with pkgs; [gutenprint hplip];
   services.upower.enable = true;
   services.blueman.enable = true;
   services.dbus.packages = [ pkgs.gcr ];
@@ -91,13 +89,14 @@
   services.xserver = {
     enable = true;
     layout = "us";
-    xkbOptions = "caps:escape";
+    xkbOptions = "caps:escape,compose:rctrl";
     windowManager.xmonad = {
       enable = true;
       enableContribAndExtras = true;
       extraPackages = pk: with pk; [ taffybar ];
     };
     libinput.enable = true;
+    wacom.enable = true;
   };
 
   security.sudo.wheelNeedsPassword = false;

@@ -3,7 +3,7 @@
 {
   home.packages = with pkgs; [
     gimp
-    inkscape
+    # inkscape
     krita
     mpv
     ffmpeg
@@ -12,6 +12,7 @@
     steam
     transmission-gtk
     zathura
+    feh
   ];
 
   programs = {

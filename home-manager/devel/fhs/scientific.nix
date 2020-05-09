@@ -142,6 +142,8 @@ in
         (pkgs.callPackage ../languages/R.nix {})
         (pkgs.callPackage ../languages/python.nix {})
 
+        atom
+
         myM2
         myM2common
         (gfortran8.cc.override {

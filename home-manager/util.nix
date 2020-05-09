@@ -29,5 +29,8 @@
     gcolor2
     appimage-run
     seafile-client
+    dtrx
+    scrot
+    tree
   ];
 }

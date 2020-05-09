@@ -9,8 +9,10 @@
 
   home.packages = with pkgs; [
     signal-desktop
+    riot-desktop
     discord
     zoom-us
+    obs-studio
   ];
 
   programs.msmtp.enable = true;

@@ -6,6 +6,7 @@
     settings = {
       font.size = 8;
       # Colors (One Dark)
+      background_opacity = 0.85;
       colors = {
         # Default colors
         primary = {

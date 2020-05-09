@@ -47,7 +47,7 @@ myTaffybarConfig =
           ]
         , barPosition = Top
         , barPadding = 0
-        , barHeight = 30
+        , barHeight = 23
         , widgetSpacing = 5
         }
   in withBatteryRefresh $ withLogServer $
