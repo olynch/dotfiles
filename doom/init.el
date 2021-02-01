@@ -19,7 +19,7 @@
 (doom! :input
 
        :completion
-       company           ; the ultimate code completion backend
+       ;; company           ; the ultimate code completion backend
        ivy               ; a search engine for love and life
 
        :ui
@@ -54,17 +54,23 @@
 
        :term
        eshell            ; the elisp shell that works everywhere
+       vterm
+
+       :app
+       twitter
 
        :checkers
-       syntax              ; tasing you for every semicolon you forget
-       spell             ; tasing you for misspelling mispelling
+       ;; syntax              ; tasing you for every semicolon you forget
+       ;; spell             ; tasing you for misspelling mispelling
 
        :tools
+       direnv
+       docker
        editorconfig      ; let someone else argue about tabs vs spaces
        (eval +overlay)     ; run code, run (also, repls)
        lookup              ; navigate your code and its documentation
        lsp
-       magit             ; a git porcelain for Emacs
+       (magit +forge)             ; a git porcelain for Emacs
        pdf               ; pdf enhancements
        rgb               ; creating color strings
 
@@ -72,17 +78,18 @@
        data              ; config/data formats
        emacs-lisp        ; drown in parentheses
        ess               ; emacs speaks statistics
-       haskell  ; a language that's lazier than I am
+       haskell           ; a language that's lazier than I am
        javascript        ; all(hope(abandon(ye(who(enter(here))))))
        julia             ; a better, faster MATLAB
-       latex             ; writing papers in Emacs has never been so fun
+       (latex +latexmk +cdlatex)   ; writing papers in Emacs has never been so fun
+       lean
        lua               ; one-based indices? one-based indices
        markdown          ; writing docs for people to ignore
        nix               ; I hereby declare "nix geht mehr!"
        ;; ocaml             ; an objective camel
        (org +jupyter +pandoc +roam)              ; organize your plain life in plain text
        python            ; beautiful is better than ugly
-       rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       (rust +lsp)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        sh
 
        :email

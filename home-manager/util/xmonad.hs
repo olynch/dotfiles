@@ -40,7 +40,7 @@ main = do
 
 --------------------------------------------------------------------------------
 -- | Customize layouts.
-myLayouts = gaps [(U,10)] $ avoidStruts $ toggleLayouts (noBorders Full) others
+myLayouts = toggleLayouts (noBorders Full) others
   where
     others = spacingRaw True (Border 10 10 10 10) True (Border 10 10 10 10) True $ TwoPane (3/100) (1/2)
 

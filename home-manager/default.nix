@@ -7,6 +7,7 @@
     ./communication.nix
     ./media.nix
     ./base.nix
+    ./wm.nix
   ];
 
   nixpkgs.config.allowUnfree = true;

@@ -14,11 +14,14 @@
 
 (set-frame-parameter (selected-frame) 'alpha '(85 . 85))
 (add-to-list 'default-frame-alist '(alpha . (85 . 85)))
+
+(setq auth-sources '("~/.authinfo"))
 #+end_src
 ** Convenience Remaps
 #+begin_src elisp
 (map! :leader
-      "SPC" 'counsel-M-x)
+      "SPC" 'counsel-M-x
+      "p /" '+ivy/project-search)
 #+end_src
 * Domains
 ** Dotfiles
@@ -28,7 +31,7 @@
   (async-shell-command "commit-dotfiles"))
 
 (map! :leader
-      "d c" '+dotfiles/commit)
+      "d c" #'+dotfiles/commit)
 #+end_src
 ** Nix
 #+begin_src elisp
@@ -41,8 +44,8 @@
   (async-shell-command "sudo nixos-rebuild switch"))
 
 (map! :leader
-      "h r h" '+nix/home-manager-switch
-      "h r n" '+nix/nixos-rebuild-switch)
+      "h r h" #'+nix/home-manager-switch
+      "h r n" #'+nix/nixos-rebuild-switch)
 
 (set-popup-rules!
   '(("^\\*Async" :slot -1 :modeline f)))
@@ -50,5 +53,36 @@
 ** Doom
 #+begin_src elisp
 (map! :leader
-      "h r r" '+doom/reload)
+      "h r r" 'doom/reload)
+#+end_src
+** Julia
+#+begin_src elisp
+(setq-default julia-indent-offset 2)
+#+end_src
+** Nov
+#+begin_src elisp
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+#+end_src
+** Markdown
+#+begin_src elisp
+;; (add-hook! markdown-mode
+;;   (setq markdown-enable-math 'f))
+#+end_src
+
+** LaTeX
+
+#+begin_src elisp
+(add-hook! LaTeX-mode
+  (setq TeX-engine 'luatex))
+
+(setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
+#+end_src
+
+** Org
+#+begin_src elisp
+(defun org-insert-clipboard-image (&optional file)
+  (interactive "F")
+  (shell-command (concat "wl-paste > " file))
+  (insert (concat "[[" file "]]"))
+  (org-display-inline-images))
 #+end_src

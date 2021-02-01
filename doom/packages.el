@@ -53,3 +53,5 @@
 (package! flycheck-ocaml)
 (package! reason-mode)
 (package! rudel)
+(package! fennel-mode)
+(package! nov)

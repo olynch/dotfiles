@@ -5,12 +5,25 @@
 
 (setq doom-theme 'doom-one)
 
-(setq org-directory "~/org/")
+(setq org-directory "~/d/org/")
 
 (setq display-line-numbers-type t)
 
+(set-frame-parameter (selected-frame) 'alpha '(85 . 85))
+(add-to-list 'default-frame-alist '(alpha . (85 . 85)))
+
+(setq auth-sources '("~/.authinfo"))
+
 (map! :leader
-      "SPC" 'counsel-M-x)
+      "SPC" 'counsel-M-x
+      "p /" '+ivy/project-search)
+
+(defun +dotfiles/commit ()
+  (interactive)
+  (async-shell-command "commit-dotfiles"))
+
+(map! :leader
+      "d c" #'+dotfiles/commit)
 
 (defun +nix/home-manager-switch ()
   (interactive)
@@ -18,34 +31,32 @@
 
 (defun +nix/nixos-rebuild-switch ()
   (interactive)
-  (async-shell-command "update-nixos"))
+  (async-shell-command "sudo nixos-rebuild switch"))
 
 (map! :leader
-      "h r h" '+nix/home-manager-switch
-      "h r n" '+nix/nixos-rebuild-switch)
+      "h r h" #'+nix/home-manager-switch
+      "h r n" #'+nix/nixos-rebuild-switch)
 
 (set-popup-rules!
   '(("^\\*Async" :slot -1 :modeline f)))
 
-(defun +doom/reload-with-commit ()
-  (interactive)
-  (require 'core-cli)
-  (when (and IS-WINDOWS (file-exists-p doom-env-file))
-    (warn "Can't regenerate envvar file from within Emacs. Run 'doom env' from the console"))
-  ;; In case doom/reload is run before incrementally loaded packages are loaded,
-  ;; which could cause odd load order issues.
-  (mapc #'require (cdr doom-incremental-packages))
-  (doom--if-compile "update-doom"
-      (let ((doom-reloading-p t))
-        (doom-initialize 'force)
-        (with-demoted-errors "PRIVATE CONFIG ERROR: %s"
-          (general-auto-unbind-keys)
-          (unwind-protect
-              (doom-initialize-modules 'force)
-            (general-auto-unbind-keys t)))
-        (run-hook-wrapped 'doom-reload-hook #'doom-try-run-hook)
-        (print! (success "Config successfully reloaded!")))
-    (user-error "Failed to reload your config")))
-
 (map! :leader
-      "h r r" '+doom/reload-with-commit)
+      "h r r" 'doom/reload)
+
+(setq-default julia-indent-offset 2)
+
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+
+;; (add-hook! markdown-mode
+;;   (setq markdown-enable-math 'f))
+
+(add-hook! LaTeX-mode
+  (setq TeX-engine 'luatex))
+
+(setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
+
+(defun org-insert-clipboard-image (&optional file)
+  (interactive "F")
+  (shell-command (concat "wl-paste > " file))
+  (insert (concat "[[" file "]]"))
+  (org-display-inline-images))

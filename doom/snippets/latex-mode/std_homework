@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: std_homework
+# uuid:
+# key: trigger-key
+# condition: t
+# --
+
+\documentclass{scrartcl}
+\usepackage{latexrc/macros}
+\usepackage[autooneside=true]{scrlayer-scrpage}
+\pagestyle{scrheadings}
+\ihead{Owen Lynch}
+\chead{\textsc{Homework $1}}
+\ohead{$2}
+\KOMAoptions{headsepline=2pt}
+\setkomafont{headsepline}{\color{gray}}
+\begin{document}
+$0
+\end{document}

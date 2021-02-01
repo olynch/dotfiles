@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: 2cell
+# uuid:
+# key: trigger-key
+# condition: t
+# --
+\[
+\begin{tikzcd}
+    $1 \ar[r,tick,"$5",""{name=top,inner sep=5pt,below}] \ar[d,swap,"$7"] & $2 \ar[d,"$8"] \\\\
+    $3 \ar[r,swap,tick,"$6",""{name=bottom,inner sep=5pt,above}] & $4
+    \ar[from=top,to=bottom,Rightarrow,"$9"]
+\end{tikzcd}
+\]

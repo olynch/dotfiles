@@ -2,30 +2,26 @@
 
 {
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.useOSProber = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.timeout = 1;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  environment.variables = {
-    MESA_LOADER_DRIVER_OVERRIDE = "iris";
-  };
-  hardware.opengl.package = (pkgs.mesa.override {
-    galliumDrivers = [ "nouveau" "virgl" "swrast" "iris" ];
-  }).drivers;
+  nix.trustedUsers = [ "root" "o" ];
 
   networking.hostName = "swantrumpet";
   networking.networkmanager.enable = true;
   # networking.useNetworkd = true;
 
-  networking.wireguard = {
-    enable = true;
+  networking.wg-quick = {
     interfaces.wg0 = {
-      ips = ["10.100.0.42/32"];
+      address = ["10.100.0.42/32"];
       peers = [
         {
-          allowedIPs = [ "10.100.0.0/16" ];
-          endpoint = "owenlynch.org:443";
+          allowedIPs = [ "10.100.0.1/16" ];
+          endpoint = "208.167.253.75:443";
           publicKey = "h9x943YgpQwLIkBPLkdcrpIWoUwlXDUQ7PuaKVK8Cz4=";
           persistentKeepalive = 25;
         }
@@ -46,7 +42,11 @@
   };
   time.timeZone = "America/New_York";
 
-  environment.systemPackages = with pkgs; [ ];
+  environment.systemPackages = with pkgs; [
+  ];
+
+  nix.binaryCaches = [ "https://hydra.iohk.io" ];
+  nix.binaryCachePublicKeys = [ "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" ];
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
@@ -56,6 +56,7 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   networking.firewall.enable = false;
+  networking.nameservers = [ "4.4.4.4" "8.8.8.8" ];
 
   security.polkit.extraConfig = ''
     polkit.addRule(function(action, subject) {
@@ -67,36 +68,41 @@
   services.printing.enable = true;
   services.printing.drivers = with pkgs; [gutenprint hplip];
   services.upower.enable = true;
-  services.blueman.enable = true;
   services.dbus.packages = [ pkgs.gcr ];
   hardware.bluetooth.enable = true;
   services.fwupd.enable = true;
+  services.gnome3.gnome-settings-daemon.enable = true;
+  hardware.opengl.driSupport32Bit = true;
 
   virtualisation.docker.enable = true;
+  services.flatpak.enable = true;
+  xdg.portal = {
+    enable = true;
+    gtkUsePortal = true;
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk xdg-desktop-portal ];
+  };
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.package = pkgs.pulseaudioFull;
+  hardware.pulseaudio = {
+    enable = true;
+  };
   programs.dconf.enable = true;
+  programs.fish.enable = true;
   services.avahi.enable = true;
 
-  location.latitude = 42.36;
-  location.longitude = 71.09;
-  services.redshift.enable = true;
+  location.latitude = 52.09;
+  location.longitude = 5.12;
+  hardware.sensor.iio.enable = true;
 
+  # Enable sway wm
+  programs.sway.enable = true;
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    layout = "us";
-    xkbOptions = "caps:escape,compose:rctrl";
-    windowManager.xmonad = {
-      enable = true;
-      enableContribAndExtras = true;
-      extraPackages = pk: with pk; [ taffybar ];
-    };
-    libinput.enable = true;
-    wacom.enable = true;
+    displayManager.sddm.enable = true;
+    displayManager.autoLogin.enable = true;
+    displayManager.autoLogin.user = "o";
   };
 
   security.sudo.wheelNeedsPassword = false;
@@ -105,13 +111,13 @@
   users.users.o = {
     isNormalUser = true;
     hashedPassword = "$6$EEGK4jub86F7Y.xm$sz/KWoMyVfMuBlJQA.aqzBaQ39o1UI1Mj4BUtM9jB6hYbGyLE/Pn5uywM.aK/K6oZY3khDlzcjCInxqNjGc4M1";
-    extraGroups = [ "wheel" "docker" ];
-    shell = "${pkgs.fish}/bin/fish";
+    extraGroups = [ "wheel" "docker" "audio" "libvirtd" ];
+    shell = pkgs.fish;
   };
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "19.09"; # Did you read the comment?
+  system.stateVersion = "20.09"; # Did you read the comment?
 }

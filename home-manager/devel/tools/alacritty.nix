@@ -4,9 +4,9 @@
   programs.alacritty = {
     enable = true;
     settings = {
-      font.size = 8;
+      font.size = 12;
       # Colors (One Dark)
-      background_opacity = 0.85;
+      background_opacity = 1.0;
       colors = {
         # Default colors
         primary = {

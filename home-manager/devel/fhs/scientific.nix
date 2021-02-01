@@ -4,12 +4,13 @@ let
   myjulia = pkgs.stdenv.mkDerivation {
     name = "julia";
     src = pkgs.fetchurl {
-      url = "https://julialang-s3.julialang.org/bin/linux/x64/1.4/julia-1.4.1-linux-x86_64.tar.gz";
-      sha256 = "02k1a17lw7jdzc1ngbr6z6lqs3ivg8h95yxf7i61fy6nmsnqqvgx";
+      url = "https://julialang-s3.julialang.org/bin/linux/x64/1.4/julia-1.4.2-linux-x86_64.tar.gz";
+      sha256 = "0a2w2q3ddggnsfxcxa9irzb23x7c7q8v3l00jzl101r64fz12wyp";
     };
     installPhase = ''
               mkdir $out
               cp -R * $out/
+              # cp  ${pkgs.gcc.cc.lib}/lib/libstdc++.so.6 $out/lib/julia/
             '';
     dontStrip = true;
   };
@@ -139,7 +140,7 @@ in
         myjulia
         mygr
 
-        (pkgs.callPackage ../languages/R.nix {})
+        # (pkgs.callPackage ../languages/R.nix {})
         (pkgs.callPackage ../languages/python.nix {})
 
         atom
@@ -164,7 +165,7 @@ in
 
         # IJulia.jl
         mbedtls
-        zeromq3
+        zeromq4
         # ImageMagick.jl
         imagemagickBig
         # HDF5.jl
