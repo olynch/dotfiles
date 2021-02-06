@@ -10,23 +10,14 @@
     krita
     mpv
     ffmpeg
-    okular
     spotify
-    steam
     transmission-gtk
     zathura
     xournalpp
     feh
     torbrowser
-    ardour
-    # openshot-qt
-    zynaddsubfx
-    helm
-    drumkv1
-    ipe
     lilypond
     google-chrome
-    nyxt
     libreoffice
 
     multimc
@@ -34,6 +25,7 @@
 
     # Fonts
     nerdfonts
+    fira
   ];
 
   programs = {

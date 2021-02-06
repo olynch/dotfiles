@@ -55,3 +55,4 @@
 (package! rudel)
 (package! fennel-mode)
 (package! nov)
+(package! maude-mode)

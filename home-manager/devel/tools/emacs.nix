@@ -1,14 +1,13 @@
 { config, lib, pkgs, ... }:
 
 {
-  nixpkgs.overlays = [
+ nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://api.github.com/repos/nix-community/emacs-overlay/tarball/facff646180d867f232c39324308376d5187c348;
+      url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
     }))
   ];
-
   programs.emacs.enable = true;
-  programs.emacs.package = pkgs.emacs;
+  programs.emacs.package = pkgs.emacsGit;
   programs.emacs.extraPackages = epkgs: [ epkgs.vterm epkgs.zmq ];
   services.emacs.enable = true;
 
@@ -41,6 +40,10 @@
     rls
     # nov.el
     unzip
+    # :lang nix
+    nixfmt
+    # :lang org +roam
+    graphviz
   ];
 
   home.sessionVariables.DOOMDIR = "~/g/dotfiles/doom";

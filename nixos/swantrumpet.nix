@@ -17,15 +17,13 @@
 
   networking.wg-quick = {
     interfaces.wg0 = {
-      address = ["10.100.0.42/32"];
-      peers = [
-        {
-          allowedIPs = [ "10.100.0.1/16" ];
-          endpoint = "208.167.253.75:443";
-          publicKey = "h9x943YgpQwLIkBPLkdcrpIWoUwlXDUQ7PuaKVK8Cz4=";
-          persistentKeepalive = 25;
-        }
-      ];
+      address = [ "10.100.0.42/32" ];
+      peers = [{
+        allowedIPs = [ "10.100.0.1/16" ];
+        endpoint = "208.167.253.75:443";
+        publicKey = "h9x943YgpQwLIkBPLkdcrpIWoUwlXDUQ7PuaKVK8Cz4=";
+        persistentKeepalive = 25;
+      }];
       privateKey = "ADRvKNzspjuVrCFGEk2C/P49Nt5U8Sw4he7yQeAjhnM=";
     };
   };
@@ -37,16 +35,14 @@
   networking.interfaces.enp0s31f6.useDHCP = true;
   networking.interfaces.wlp2s0.useDHCP = true;
 
-  i18n = {
-    defaultLocale = "nl_NL.utf8";
-  };
+  i18n = { defaultLocale = "nl_NL.utf8"; };
   time.timeZone = "America/New_York";
 
-  environment.systemPackages = with pkgs; [
-  ];
+  environment.systemPackages = with pkgs; [ ];
 
   nix.binaryCaches = [ "https://hydra.iohk.io" ];
-  nix.binaryCachePublicKeys = [ "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" ];
+  nix.binaryCachePublicKeys =
+    [ "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" ];
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
@@ -66,7 +62,7 @@
 
   # utility services
   services.printing.enable = true;
-  services.printing.drivers = with pkgs; [gutenprint hplip];
+  services.printing.drivers = with pkgs; [ gutenprint hplip ];
   services.upower.enable = true;
   services.dbus.packages = [ pkgs.gcr ];
   hardware.bluetooth.enable = true;
@@ -84,9 +80,7 @@
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio = {
-    enable = true;
-  };
+  hardware.pulseaudio = { enable = true; };
   programs.dconf.enable = true;
   programs.fish.enable = true;
   services.avahi.enable = true;
@@ -96,11 +90,14 @@
   hardware.sensor.iio.enable = true;
 
   # Enable sway wm
-  programs.sway.enable = true;
+  # programs.sway.enable = true;
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    displayManager.sddm.enable = true;
+    libinput = { enable = true; };
+    xkbOptions = "caps:escape";
+    windowManager.i3.enable = true;
+    displayManager.lightdm.enable = true;
     displayManager.autoLogin.enable = true;
     displayManager.autoLogin.user = "o";
   };
@@ -110,7 +107,8 @@
   users.mutableUsers = false;
   users.users.o = {
     isNormalUser = true;
-    hashedPassword = "$6$EEGK4jub86F7Y.xm$sz/KWoMyVfMuBlJQA.aqzBaQ39o1UI1Mj4BUtM9jB6hYbGyLE/Pn5uywM.aK/K6oZY3khDlzcjCInxqNjGc4M1";
+    hashedPassword =
+      "$6$EEGK4jub86F7Y.xm$sz/KWoMyVfMuBlJQA.aqzBaQ39o1UI1Mj4BUtM9jB6hYbGyLE/Pn5uywM.aK/K6oZY3khDlzcjCInxqNjGc4M1";
     extraGroups = [ "wheel" "docker" "audio" "libvirtd" ];
     shell = pkgs.fish;
   };

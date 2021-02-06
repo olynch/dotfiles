@@ -7,10 +7,10 @@
     userName = "root@owenlynch.org";
     realName = "Owen Lynch";
     passwordCommand = "cat ~/.mail-passwords/root@owenlynch.org";
-    smtp.host = "mx.owenlynch.org";
+    smtp.host = "mx.proqqul.net";
     smtp.port = 587;
     smtp.tls.useStartTls = true;
-    imap.host = "mx.owenlynch.org";
+    imap.host = "mx.proqqul.net";
     astroid.enable = true;
     astroid.sendMailCommand = "msmtp --account=owenlynchorg --read-envelope-from --read-recipients";
     folders = {
@@ -20,6 +20,7 @@
     msmtp.enable = true;
     notmuch.enable = true;
     mbsync.enable = true;
+    mbsync.create = "both";
     imapnotify = {
         enable = true;
         onNotify = "${pkgs.isync}/bin/mbsync owenlynchorg";

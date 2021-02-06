@@ -4,7 +4,21 @@
   programs.alacritty = {
     enable = true;
     settings = {
-      font.size = 12;
+      font = {
+        size = 8;
+        normal = {
+          family = "Fira Code Nerd Font";
+          style = "Regular";
+        };
+        bold = {
+          family = "Fira Code Nerd Font";
+          style = "Bold";
+        };
+        italic = {
+          family = "Fira Code Nerd Font";
+          style = "Italic";
+        };
+      };
       # Colors (One Dark)
       background_opacity = 1.0;
       colors = {

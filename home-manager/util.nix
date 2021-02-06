@@ -23,8 +23,6 @@
   programs.direnv.enable = true;
   programs.direnv.enableNixDirenvIntegration = true;
 
-  programs.mcfly.enable = true;
-
   programs.zoxide = {
     enable = true;
     enableFishIntegration = true;
@@ -37,16 +35,10 @@
     enableBashIntegration = true;
   };
 
-  # services.redshift = {
-  #   enable = true;
-  #   package = pkgs.gammastep;
-  #   latitude = "52.09";
-  #   longitude = "5.10";
-  # };
-
   home.packages = with pkgs; [
     gammastep
     (pkgs.callPackage ./util/scripts {})
+    (pkgs.callPackage ./pkgs/plik {})
     coreutils
     htop
     pavucontrol
@@ -54,21 +46,16 @@
     # appimage-run
     seafile-client
     dtrx
-    scrot
     tree
     imagemagick
     binutils
     inetutils
-    vagrant
     netcat
-    magic-wormhole
     rubber
     dmenu
     pinentry
     anki
     croc
-    docker-compose
-    yarn
     pandoc
 
     # Rust replacements
@@ -80,7 +67,6 @@
     exa
     procs
     du-dust
-    tokei
     tealdeer
     bandwhich
     

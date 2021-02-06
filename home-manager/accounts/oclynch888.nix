@@ -15,6 +15,7 @@
     msmtp.enable = true;
     notmuch.enable = true;
     mbsync.enable = true;
+    mbsync.create = "both";
     passwordCommand = "cat .mail-passwords/oclynch888@gmail.com";
     imapnotify = {
         enable = true;

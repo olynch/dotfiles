@@ -3,12 +3,12 @@
 let
   mod = "Mod4";
   term = "${pkgs.alacritty}/bin/alacritty";
-  wm_menu = "swaymsg -t get_workspaces -r | ${pkgs.jq}/bin/jq --raw-output 'map(.name) | reduce .[] as $item (\"\";. + \"\\n\" + $item)' | dmenu -b";
+
   left = "h";
   right = "l";
   down = "j";
   up = "k";
-  waybar-mpris = pkgs.callPackage ./waybar-mpris {  };
+
   quickdraw = pkgs.writeShellScriptBin "quickdraw" ''
     file="/tmp/quick_draw.$RANDOM.png"
     cp ~/g/dotfiles/resources/scratch.png $file
@@ -16,59 +16,42 @@ let
     ${pkgs.wl-clipboard}/bin/wl-copy < $file
     rm $file
   '';
+  wm_menu = cmd: "${pkgs.writeShellScriptBin "wm_menu" ''
+    i3-msg -t get_workspaces | ${pkgs.jq}/bin/jq --raw-output 'map(.name) | reduce .[] as $item ("";. + "\n" + $item)' | dmenu -b | ${cmd}
+  ''}/bin/wm_menu";
+
+  polybarScripts = pkgs.fetchFromGitHub {
+    owner = "polybar";
+    repo = "polybar-scripts";
+    rev = "4b37074";
+    sha256 = "1msyza0p3xgphyxhcw55kn87vydzigpac6zjqb3j7dxmmdr1bjd8";
+  };
+
+  polybarPython = pkgs.python3.withPackages (pypk: with pypk; [
+    dbus-python
+    pygobject3
+  ]);
+
+  polybarMpris = "${polybarPython}/bin/python3 ${polybarScripts}/polybar-scripts/player-mpris-tail/player-mpris-tail.py";
 in
 {
-  xsession.windowManager.xmonad = {
-    enable = false;
-
-    extraPackages = hpkgs: with hpkgs; [
-      xmonad-contrib
-    ];
-
-    enableContribAndExtras = true;
-  };
-  wayland.windowManager.sway = {
+  xsession.windowManager.i3 = {
     enable = true;
-    systemdIntegration = true;
-    wrapperFeatures = {
-      base = true;
-      gtk = true;
-    };
     config = {
-      output."*" = {
-        bg = "~/g/dotfiles/resources/nightmode.png fill";
-      };
-      bars = [ {
-        command = "${pkgs.waybar}/bin/waybar";
-      }];
+      bars = [];
       modifier = "${mod}";
-      input = {
-        "type:keyboard" = {
-          xkb_layout = "us";
-          xkb_options = "caps:escape";
-        };
-        "1386:20808:Wacom_Pen_and_multitouch_sensor_Pen" = {
-          map_to_output = "eDP-1";
-        };
-        "1386:20808:Wacom_Pen_and_multitouch_sensor_Finger" = {
-          map_to_output = "eDP-1";
-        };
-      };
-      floating.criteria = [
-        { "app_id" = "com.github.maoschanz.drawing"; }
-      ];
       keybindings = {
         "${mod}+Return" = "exec ${term}";
 
         # Kill focused window
-        "${mod}+Backspace" = "kill";
+        "${mod}+BackSpace" = "kill";
 
         # Start your launcher
-        "${mod}+Shift+p" = "exec \"${pkgs.rofi}/bin/rofi -modi drun,run -show drun\"";
+        "${mod}+Shift+p" = "exec \"${pkgs.rofi}/bin/rofi -show drun\"";
 
         # Reload the configuration file
         # Exit sway (logs you out of your Wayland session)
-        "${mod}+Shift+e" = "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'";
+        "${mod}+Shift+e" = "exit";
         #
         # Moving around:
         #
@@ -122,8 +105,8 @@ in
         # We just use 1-10 as the default.
 
 
-        "${mod}+Space" = "exec ${wm_menu} | xargs swaymsg workspace --";
-        "${mod}+Shift+Space" = "exec ${wm_menu} | xargs swaymsg move container to workspace --";
+        "${mod}+space" = "exec ${wm_menu "xargs i3-msg workspace --"}";
+        "${mod}+Shift+space" = "exec ${wm_menu "xargs i3-msg move container to workspace --"}";
         #
         # Layout stuff:
         #
@@ -170,7 +153,7 @@ in
         "XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
         "XF86MonBrightnessUp" = "exec brightnessctl set +5%";
 
-        "${mod}+c" = "exec ${pkgs.sway-contrib.grimshot}/bin/grimshot copy area";
+        # "${mod}+c" = "exec ${pkgs.sway-contrib.grimshot}/bin/grimshot copy area";
 
         "${mod}+t" = "mode transform";
         "${mod}+m" = "mode music";
@@ -182,13 +165,13 @@ in
         "${mod}+q" = "mode reconfigure";
       };
       modes = {
-        transform = {
-          "h" = "output eDP-1 transform 270; mode default";
-          "l" = "output eDP-1 transform 90; mode default";
-          "k" = "output eDP-1 transform 180; mode default";
-          "j" = "output eDP-1 transform 0; mode default";
-          "Escape" = "mode default";
-        };
+        # transform = {
+        #   "h" = "output eDP-1 transform 270; mode default";
+        #   "l" = "output eDP-1 transform 90; mode default";
+        #   "k" = "output eDP-1 transform 180; mode default";
+        #   "j" = "output eDP-1 transform 0; mode default";
+        #   "Escape" = "mode default";
+        # };
         resize = {
           # left will shrink the containers width
           # right will grow the containers width
@@ -210,9 +193,10 @@ in
           "Escape" = "mode default";
         };
         music = {
-          "Space" = "exec playerctl play-pause; mode default";
+          "space" = "exec playerctl play-pause; mode default";
           "n" = "exec playerctl next; mode default";
           "p" = "exec playerctl previous; mode default";
+          "Escape" = "mode default";
         };
         launcher =  {
           "w" = "exec \"firefox\"; mode default";
@@ -238,152 +222,52 @@ in
     };
   };
 
-  programs.waybar = {
+  services.polybar = {
     enable = true;
-    settings = [
-      {
-        layer = "top";
-        position = "top";
-        height = 22;
-        modules-left = [ "sway/workspaces" "sway/mode" ];
-        modules-center = [ ];
-        modules-right = [ "custom/waybar-mpris" "tray" "network" "pulseaudio" "battery" "clock" ];
-        modules = {
-          "sway/workspaces" = {
-            disable-scroll = true;
-            all-outputs = true;
-            numeric-first = true;
-          };
-          "pulseaudio" = {
-            format = "墳 {volume}%";
-          };
-          "custom/waybar-mpris" = {
-            "return-type" = "json";
-            "exec" = "${waybar-mpris}/bin/waybar-mpris --autofocus";
-            "on-click" = "${waybar-mpris}/bin/waybar-mpris --send toggle";
-            "escape" = true;
-          };
-          "network" =  {
-            "format-wifi" = "{essid} ({signalStrength}%) ";
-            "format-ethernet" = "{ifname}: {ipaddr}/{cidr} ";
-            "format-disconnected" =  "Disconnected ⚠";
-          };
-          "battery" = {
-            "interval" = 60;
-            "format-icons" = ["" "" "" "" "" "" "" "" "" ""];
-            "format-discharging" = "{capacity}% {icon}";
-            "format-charging" = "{capacity}% ";
-            "format-unknown" = "{capacity}% ";
-            "states" = {
-              "critical" = 7;
-            };
-          };
-          "tray" = {
-            "spacing" = 12;
-          };
-        };
-      }
-    ];
-    style = ''
-      * {
-          border: none;
-          border-radius: 0;
-          font-family: "Iosevka Nerd Font";
-          font-size: 13px;
-          min-height: 0;
-      }
-
-      window#waybar {
-          background: transparent;
-          color: white;
-      }
-
-      #window {
-          font-weight: bold;
-          font-family: "Ubuntu";
-      }
-
-      #workspaces button {
-          padding: 0 5px;
-          background: transparent;
-          color: white;
-          border-top: 2px solid transparent;
-      }
-
-      #workspaces button.focused {
-          color: #c9545d;
-          border-top: 2px solid #c9545d;
-      }
-
-      #mode {
-          background: #64727D;
-          border-bottom: 3px solid white;
-      }
-
-      #clock, #battery, #cpu, #memory, #network, #pulseaudio, #custom-spotify, #tray, #mode {
-          padding: 0 10px;
-          margin: 0 2px;
-      }
-
-      #clock {
-          font-weight: bold;
-      }
-
-      #battery {
-      }
-
-      #battery.critical {
-          color: red
-      }
-
-      @keyframes blink {
-          to {
-              background-color: #ffffff;
-              color: black;
-          }
-      }
-
-      #battery.warning:not(.charging) {
-          color: white;
-          animation-name: blink;
-          animation-duration: 0.5s;
-          animation-timing-function: linear;
-          animation-iteration-count: infinite;
-          animation-direction: alternate;
-      }
-
-      #cpu {
-      }
-
-      #memory {
-      }
-
-      #network {
-      }
-
-      #network.disconnected {
-          background: #f53c3c;
-      }
-
-      #pulseaudio {
-      }
-
-      #pulseaudio.muted {
-      }
-
-      #custom-spotify {
-          color: rgb(102, 220, 105);
-      }
-
-      #tray {
-      }
-   '';
+    package = pkgs.polybarFull;
+    config = {
+      "bar/top" = {
+        monitor = "eDP-1";
+        width = "100%";
+        height = "2%";
+        radius = 0;
+        modules-right = "player-mpris-tail battery pulseaudio date";
+        modules-left = "i3";
+        tray-position = "right";
+        font-0 = "FiraCode Nerd Font:size=10";
+        separator = " | ";
+      };
+      "module/i3" = {
+        type = "internal/i3";
+      };
+      "module/date" = {
+        type = "internal/date";
+        internal = 5;
+        date = "%d.%m.%y";
+        time = "%H:%M";
+        label = "%time%  %date%";
+      };
+      "module/pulseaudio" = {
+        type = "internal/pulseaudio";
+      };
+      "module/battery" = {
+        type = "internal/battery";
+      };
+      "module/player-mpris-tail" = {
+        type = "custom/script";
+        exec = "${polybarMpris} -f '{icon} {artist} - {title}'";
+        tail = true;
+      };
+    };
+    script = ''
+      polybar top &
+    '';
   };
 
   programs.mako.enable = false;
 
   home.sessionVariables = {
-    MOZ_ENABLE_WAYLAND="1";
+    # MOZ_ENABLE_WAYLAND="1";
     MOZ_USE_XINPUT2="1";
   };
 
@@ -394,6 +278,6 @@ in
     pamixer
     playerctl
     brightnessctl
-    sway-contrib.grimshot
+    # sway-contrib.grimshot
   ];
 }

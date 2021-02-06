@@ -18,6 +18,11 @@
       "SPC" 'counsel-M-x
       "p /" '+ivy/project-search)
 
+(setq doom-font (font-spec :family "FiraCode Nerd Font" :size 14)
+      doom-variable-pitch-font (font-spec :family "Fira Sans")
+      doom-unicode-font (font-spec :family "DejaVu Sans Mono")
+      doom-big-font (font-spec :family "FiraCode Nerd Font" :size 19))
+
 (defun +dotfiles/commit ()
   (interactive)
   (async-shell-command "commit-dotfiles"))
@@ -60,3 +65,5 @@
   (shell-command (concat "wl-paste > " file))
   (insert (concat "[[" file "]]"))
   (org-display-inline-images))
+
+(setq org-agenda-skip-function-global '(org-agenda-skip-entry-if 'todo 'done))
