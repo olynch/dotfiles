@@ -1,13 +1,14 @@
 { config, lib, pkgs, ... }:
 
 {
- nixpkgs.overlays = [
+  nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+      url =
+        "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
     }))
   ];
   programs.emacs.enable = true;
-  programs.emacs.package = pkgs.emacsGit;
+  # programs.emacs.package = pkgs.emacsGit;
   programs.emacs.extraPackages = epkgs: [ epkgs.vterm epkgs.zmq ];
   services.emacs.enable = true;
 

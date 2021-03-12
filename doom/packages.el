@@ -56,3 +56,4 @@
 (package! fennel-mode)
 (package! nov)
 (package! maude-mode)
+(package! zig-mode)

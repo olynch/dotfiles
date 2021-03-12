@@ -62,6 +62,12 @@
 (map! :leader
       "h r r" 'doom/reload)
 #+end_src
+** Python
+#+begin_src elisp
+(after! lsp-python-ms
+  (setq lsp-python-ms-executable (executable-find "python-language-server"))
+  (set-lsp-priority! 'mspyls 1))
+#+end_src
 ** Julia
 #+begin_src elisp
 (setq-default julia-indent-offset 2)
@@ -94,4 +100,40 @@
   (org-display-inline-images))
 
 (setq org-agenda-skip-function-global '(org-agenda-skip-entry-if 'todo 'done))
+#+end_src
+
+** Jupyter
+#+begin_src elisp
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (julia . t)
+   (python . t)
+   (jupyter . t)))
+
+(setq org-babel-default-header-args:jupyter-python '((:async . "yes")
+                                                     (:session . "py")
+                                                     (:kernel . "python3")
+                                                     (:exports . "both")))
+#+end_src
+** Zig
+#+begin_src elisp
+;; (require 'lsp)
+;; (add-to-list 'lsp-language-id-configuration '(zig-mode . "zig"))
+;; (lsp-register-client
+;;  (make-lsp-client
+;;   :new-connection (lsp-stdio-connection "zig")
+;;   :major-modes '(zig-mode)
+;;   :server-id 'zls))
+#+end_src
+
+** Zoom
+#+begin_src elisp
+(defun +zoom/open-link ()
+  (interactive)
+  (shell-command
+   (format (concat "chromium '" (browse-url-url-at-point) "' > /dev/null 2>&1 &"))))
+
+(map! :leader
+      "o z" '+zoom/open-link)
 #+end_src

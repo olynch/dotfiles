@@ -48,6 +48,10 @@
 (map! :leader
       "h r r" 'doom/reload)
 
+(after! lsp-python-ms
+  (setq lsp-python-ms-executable (executable-find "python-language-server"))
+  (set-lsp-priority! 'mspyls 1))
+
 (setq-default julia-indent-offset 2)
 
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
@@ -67,3 +71,23 @@
   (org-display-inline-images))
 
 (setq org-agenda-skip-function-global '(org-agenda-skip-entry-if 'todo 'done))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (julia . t)
+   (python . t)
+   (jupyter . t)))
+
+(setq org-babel-default-header-args:jupyter-python '((:async . "yes")
+                                                     (:session . "py")
+                                                     (:kernel . "python3")
+                                                     (:exports . "both")))
+
+;; (require 'lsp)
+;; (add-to-list 'lsp-language-id-configuration '(zig-mode . "zig"))
+;; (lsp-register-client
+;;  (make-lsp-client
+;;   :new-connection (lsp-stdio-connection "zig")
+;;   :major-modes '(zig-mode)
+;;   :server-id 'zls))

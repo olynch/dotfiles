@@ -1,16 +1,14 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [
-    ./seafile.nix
-  ];
+  imports = [ ./seafile.nix ];
   services = {
     # blueman-applet.enable = true;
     # pasystray.enable = true;
     # udiskie.enable = true;
     network-manager-applet.enable = true;
     dunst = {
-      enable = true;
+      enable = false;
       settings = {
         global = {
           geometry = "600x5-30+50";

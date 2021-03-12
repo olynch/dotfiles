@@ -7,6 +7,7 @@
     #   extraPythonPackages = (ps: with ps; [ pygobject3 ]);
     # })
     inkscape
+    rx
     krita
     mpv
     ffmpeg
@@ -19,6 +20,8 @@
     lilypond
     google-chrome
     libreoffice
+    zotero
+    cozy
 
     multimc
     crawl
@@ -33,9 +36,7 @@
     firefox.enable = true;
   };
 
-  home.sessionVariables = {
-    MOZ_USE_XINPUT2=1;
-  };
+  home.sessionVariables = { MOZ_USE_XINPUT2 = 1; };
 
   nixpkgs.config.pulseaudio = true;
 

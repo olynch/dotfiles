@@ -21,7 +21,7 @@
   services.gnome-keyring.enable = true;
 
   programs.direnv.enable = true;
-  programs.direnv.enableNixDirenvIntegration = true;
+  # programs.direnv.enableNixDirenvIntegration = true;
 
   programs.zoxide = {
     enable = true;
@@ -37,8 +37,7 @@
 
   home.packages = with pkgs; [
     gammastep
-    (pkgs.callPackage ./util/scripts {})
-    (pkgs.callPackage ./pkgs/plik {})
+    (pkgs.callPackage ./util/scripts { })
     coreutils
     htop
     pavucontrol
@@ -57,6 +56,9 @@
     anki
     croc
     pandoc
+    autorandr
+    arandr
+    zip
 
     # Rust replacements
     ripgrep
@@ -69,6 +71,6 @@
     du-dust
     tealdeer
     bandwhich
-    
+
   ];
 }

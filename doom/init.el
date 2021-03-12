@@ -19,7 +19,7 @@
 (doom! :input
 
        :completion
-       ;; company           ; the ultimate code completion backend
+       company           ; the ultimate code completion backend
        ivy               ; a search engine for love and life
 
        :ui
@@ -57,6 +57,7 @@
        vterm
 
        :app
+       calendar
        twitter
 
        :checkers
@@ -75,10 +76,12 @@
        rgb               ; creating color strings
 
        :lang
+       cc
        data              ; config/data formats
+       elixir
        emacs-lisp        ; drown in parentheses
        ess               ; emacs speaks statistics
-       haskell           ; a language that's lazier than I am
+       (haskell +lsp)           ; a language that's lazier than I am
        javascript        ; all(hope(abandon(ye(who(enter(here))))))
        julia             ; a better, faster MATLAB
        (latex +latexmk +cdlatex)   ; writing papers in Emacs has never been so fun
@@ -88,9 +91,11 @@
        nix               ; I hereby declare "nix geht mehr!"
        ;; ocaml             ; an objective camel
        (org +jupyter +pandoc +roam)              ; organize your plain life in plain text
-       python            ; beautiful is better than ugly
+       (python +lsp)            ; beautiful is better than ugly
+       racket
        (rust +lsp)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        sh
+       yaml
 
        :email
        notmuch

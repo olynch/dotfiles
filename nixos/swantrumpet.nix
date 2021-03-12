@@ -10,6 +10,12 @@
   boot.loader.timeout = 1;
 
   nix.trustedUsers = [ "root" "o" ];
+  nix = {
+    package = pkgs.nixFlakes;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
 
   networking.hostName = "swantrumpet";
   networking.networkmanager.enable = true;
@@ -38,7 +44,14 @@
   i18n = { defaultLocale = "nl_NL.utf8"; };
   time.timeZone = "America/New_York";
 
-  environment.systemPackages = with pkgs; [ ];
+  environment.systemPackages = with pkgs; [
+    xfce.xfce4-notifyd
+    xfce.xfce4-panel
+    xfce.xfce4-battery-plugin
+    xfce.xfce4-datetime-plugin
+    xfce.xfce4-pulseaudio-plugin
+    xfce.xfce4-i3-workspaces-plugin
+  ];
 
   nix.binaryCaches = [ "https://hydra.iohk.io" ];
   nix.binaryCachePublicKeys =
@@ -97,9 +110,21 @@
     libinput = { enable = true; };
     xkbOptions = "caps:escape";
     windowManager.i3.enable = true;
+    desktopManager.xfce = {
+      enable = true;
+      enableXfwm = false;
+      noDesktop = true;
+    };
     displayManager.lightdm.enable = true;
     displayManager.autoLogin.enable = true;
     displayManager.autoLogin.user = "o";
+  };
+
+  systemd.packages = with pkgs.xfce; [ thunar xfce4-notifyd ];
+
+  services.postgresql = {
+    enable = true;
+    ensureUsers = [{ name = "o"; }];
   };
 
   security.sudo.wheelNeedsPassword = false;
