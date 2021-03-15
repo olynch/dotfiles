@@ -2,25 +2,15 @@
 
 {
   home.packages = with pkgs; [
-    gimp
-    inkscape
-    rx
     krita
     mpv
     ffmpeg
     spotify
-    transmission-gtk
     zathura
     xournalpp
     feh
-    torbrowser
-    lilypond
-    google-chrome
-    libreoffice
     zotero
-    cozy
 
-    multimc
     crawl
 
     # Fonts
