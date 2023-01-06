@@ -71,6 +71,6 @@
     du-dust
     tealdeer
     bandwhich
-
+    tokei
   ];
 }

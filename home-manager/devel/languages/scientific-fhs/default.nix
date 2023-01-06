@@ -1,11 +1,13 @@
 { lib, pkgs, enableJulia ? true, juliaVersion ? "julia_16", enableConda ? true
 , condaInstallationPath ? "~/.conda", condaJlEnv ? "conda_jl"
-, pythonVersion ? "3.8", enableGraphical ? true, enableNVIDIA ? false, ... }:
+, pythonVersion ? "3.8", enableGraphical ? true, enableNVIDIA ? false
+, enableNode ? true, ... }:
 
 with lib;
 let
   standardPackages = pkgs:
-    with pkgs; [
+    with pkgs;
+    [
       autoconf
       binutils
       clang
@@ -23,38 +25,52 @@ let
       unzip
       utillinux
       which
-      which
-    ];
+    ] ++ lib.optional enableNode pkgs.nodejs;
 
-  customGr = with pkgs; callPackage ./gr.nix { };
+  # customGr = with pkgs; callPackage ./gr.nix { };
 
   graphicalPackages = pkgs:
     with pkgs; [
+      alsaLib
+      at-spi2-atk
+      at-spi2-core
       atk
       cairo
-      customGr
+      cups
+      # customGr
+      dbus
+      expat
+      ffmpeg
       fontconfig
       freetype
       gdk_pixbuf
       gettext
       glfw
+      glib
       glib.out
       gnome2.GConf
       gtk2
       gtk2-x11
       gtk3
       libGL
+      libcap
+      libgnome-keyring3
+      libgpgerror
+      libnotify
       libpng
+      libsecret
       libselinux
+      libuuid
       ncurses
       nspr
+      nss
+      pango
       pango.out
       pdf2svg
       qt4
+      systemd
       xorg.libICE
       xorg.libSM
-      xorg.libSM
-      xorg.libX11
       xorg.libX11
       xorg.libXScrnSaver
       xorg.libXcomposite
@@ -66,15 +82,14 @@ let
       xorg.libXi
       xorg.libXinerama
       xorg.libXrandr
-      xorg.libXrandr
       xorg.libXrender
       xorg.libXt
       xorg.libXtst
-      xorg.libXtst
-      xorg.libXxf86vm
       xorg.libXxf86vm
       xorg.libxcb
+      xorg.libxkbfile
       xorg.xorgproto
+      zlib
     ];
 
   nvidiaPackages = pkgs:
@@ -93,8 +108,6 @@ let
     with pkgs;
     [ (callPackage ./conda.nix { installationPath = condaInstallationPath; }) ];
 
-  grPackages = pkgs: with pkgs; [ ];
-
   targetPkgs = pkgs:
     (standardPackages pkgs)
     ++ optionals enableGraphical (graphicalPackages pkgs)
@@ -110,7 +123,6 @@ let
 
   graphical_envvars = ''
     export QTCOMPOSE=${pkgs.xorg.libX11}/share/X11/locale
-    export GRDIR=${customGr}
   '';
 
   conda_envvars = ''

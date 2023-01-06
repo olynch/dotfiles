@@ -48,12 +48,14 @@
 
 (package! graphviz-dot-mode)
 (package! org-ref)
-(package! tuareg)
-(package! merlin)
-(package! flycheck-ocaml)
-(package! reason-mode)
-(package! rudel)
-(package! fennel-mode)
-(package! nov)
-(package! maude-mode)
 (package! zig-mode)
+(package! idris2-mode
+  :recipe (:host github :repo "idris-community/idris2-mode"))
+
+(package! quarto-mode)
+(package! tidal)
+(package! nushell-mode
+  :recipe (:host github :repo "azzamsa/emacs-nushell"))
+
+(package! ott-mode
+  :recipe (:host github :repo "ott-lang/ott" :files ("emacs/*.el")))

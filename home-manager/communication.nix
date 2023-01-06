@@ -16,7 +16,8 @@
     skype
     ytalk
     signal-desktop
-    zulip
+    zulip-term
+    cawbird
   ];
 
   programs.msmtp.enable = true;

@@ -38,7 +38,12 @@ in {
           juliaVersion = version-spec.version;
         };
         name = if version-spec.default then "julia" else version-spec.version;
-      in [ (fhsCommand name "julia") (fhsCommand "${name}-bash" "bash") ])
-      cfg.juliaVersions;
+        python = if version-spec.default then [
+          (fhsCommand "python3" "python3")
+          (fhsCommand "python" "python3")
+        ] else
+          [ ];
+      in [ (fhsCommand name "julia") (fhsCommand "${name}-bash" "bash") ]
+      ++ python) cfg.juliaVersions;
   };
 }

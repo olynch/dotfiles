@@ -36,12 +36,13 @@
        vc-gutter         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        window-select     ; visually switch windows
+       zen
 
        :editor
        (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
-       (format +onsave)  ; automated prettiness
+       format  ; automated prettiness
        multiple-cursors  ; editing in many places at once
        snippets          ; my elves. They type so I don't have to
        word-wrap         ; soft wrapping with language-aware indent
@@ -58,7 +59,6 @@
 
        :app
        calendar
-       twitter
 
        :checkers
        ;; syntax              ; tasing you for every semicolon you forget
@@ -76,25 +76,27 @@
        rgb               ; creating color strings
 
        :lang
+       (agda +local)
        cc
        data              ; config/data formats
        elixir
        emacs-lisp        ; drown in parentheses
-       ess               ; emacs speaks statistics
        (haskell +lsp)           ; a language that's lazier than I am
        javascript        ; all(hope(abandon(ye(who(enter(here))))))
-       julia             ; a better, faster MATLAB
+       julia ; a better, faster MATLAB
        (latex +latexmk +cdlatex)   ; writing papers in Emacs has never been so fun
        lean
+       ledger
        lua               ; one-based indices? one-based indices
        markdown          ; writing docs for people to ignore
        nix               ; I hereby declare "nix geht mehr!"
-       ;; ocaml             ; an objective camel
-       (org +jupyter +pandoc +roam)              ; organize your plain life in plain text
-       (python +lsp)            ; beautiful is better than ugly
+       (org +jupyter +pandoc)              ; organize your plain life in plain text
+       python            ; beautiful is better than ugly
        racket
        (rust +lsp)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       (scala +lsp)
        sh
+       web
        yaml
 
        :email
@@ -103,3 +105,4 @@
        :config
        literate
        (default +bindings +smartparens))
+

@@ -65,7 +65,7 @@ in {
         "${mod}+BackSpace" = "kill";
 
         # Start your launcher
-        "${mod}+Shift+p" = ''exec "${pkgs.rofi}/bin/rofi -show drun"'';
+        "${mod}+Shift+x" = ''exec "${pkgs.rofi}/bin/rofi -show drun"'';
 
         # Reload the configuration file
         # Exit sway (logs you out of your Wayland session)
@@ -180,7 +180,7 @@ in {
         "${mod}+t" = "mode transform";
         "${mod}+m" = "mode music";
 
-        "${mod}+p" = "mode launcher";
+        "${mod}+x" = "mode launcher";
 
         "${mod}+o" = "mode open";
 

@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
+  imports = [ ];
   # Use the systemd-boot EFI boot loader.
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "nodev";
@@ -53,9 +54,12 @@
     xfce.xfce4-i3-workspaces-plugin
   ];
 
-  nix.binaryCaches = [ "https://hydra.iohk.io" ];
-  nix.binaryCachePublicKeys =
-    [ "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" ];
+  nix.binaryCaches =
+    [ "https://hydra.iohk.io" "https://nixcache.reflex-frp.org" ];
+  nix.binaryCachePublicKeys = [
+    "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+    "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI="
+  ];
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
@@ -81,6 +85,7 @@
   hardware.bluetooth.enable = true;
   services.fwupd.enable = true;
   services.gnome3.gnome-settings-daemon.enable = true;
+  services.gnome3.gnome-keyring.enable = true;
   hardware.opengl.driSupport32Bit = true;
 
   virtualisation.docker.enable = true;
@@ -96,6 +101,7 @@
   hardware.pulseaudio = { enable = true; };
   programs.dconf.enable = true;
   programs.fish.enable = true;
+  programs.adb.enable = true;
   services.avahi.enable = true;
 
   location.latitude = 52.09;
@@ -129,12 +135,14 @@
 
   security.sudo.wheelNeedsPassword = false;
 
+  virtualisation.libvirtd.enable = true;
+
   users.mutableUsers = false;
   users.users.o = {
     isNormalUser = true;
     hashedPassword =
       "$6$EEGK4jub86F7Y.xm$sz/KWoMyVfMuBlJQA.aqzBaQ39o1UI1Mj4BUtM9jB6hYbGyLE/Pn5uywM.aK/K6oZY3khDlzcjCInxqNjGc4M1";
-    extraGroups = [ "wheel" "docker" "audio" "libvirtd" ];
+    extraGroups = [ "wheel" "docker" "audio" "libvirtd" "dialout" ];
     shell = pkgs.fish;
   };
 

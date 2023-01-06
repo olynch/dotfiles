@@ -37,12 +37,13 @@
     # :lang cc
     ccls
     # :lang rust
-    rustfmt
-    rls
+    # rustfmt
+    # rls
     # nov.el
     unzip
     # :lang nix
     nixfmt
+    nixpkgs-fmt
     # :lang org +roam
     graphviz
   ];

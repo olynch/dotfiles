@@ -2,21 +2,31 @@
 
 {
   imports = [
-    ./devel/languages/elixir.nix
     ./devel/languages/latex.nix
-    ./devel/languages/python.nix
     ./devel/languages/julia.nix
-    ./devel/languages/haskell.nix
+    # ./devel/languages/python.nix
     ./devel/tools/alacritty.nix
     ./devel/tools/fish.nix
     ./devel/tools/emacs.nix
     ./devel/tools/git.nix
   ];
 
-  home.packages = with pkgs; [ ipe texmacs cachix racket ];
-
-  home.sessionVariables = {
-    TEXMACS_PATH = "${pkgs.texmacs}/share/TeXmacs";
-    TEXMACS_HOME_PATH = "$HOME/.TeXmacs";
+  programs.scientific-fhs = {
+    enable = true;
+    juliaVersions = [
+      {
+        version = "julia_16";
+        default = true;
+      }
+      { version = "julia_15"; }
+      { version = "julia_10"; }
+    ];
+    enableNVIDIA = false;
   };
+
+  home.packages = with pkgs; [ ipe texmacs cachix racket rustup cookiecutter ];
+
+  nixpkgs.config.allowUnsupportedSystem = true;
+
+  home.sessionVariables = { TEXMACS_HOME_PATH = "$HOME/.TeXmacs"; };
 }

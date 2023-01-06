@@ -2,26 +2,28 @@
 
 {
   home.packages = with pkgs; [
-    gimp
-    inkscape
-    rx
-    krita
-    mpv
-    ffmpeg
-    spotify
-    transmission-gtk
-    zathura
-    xournalpp
-    feh
-    torbrowser
-    lilypond
-    google-chrome
-    libreoffice
-    zotero
     cozy
+    feh
+    ffmpeg
+    gimp
+    google-chrome
+    inkscape
+    krita
+    libreoffice
+    lilypond
+    mpv
+    rx
+    spotify
+    torbrowser
+    transmission-gtk
+    vlc
+    xournalpp
+    zathura
+    zotero
 
     multimc
     crawl
+    dwarf-fortress-packages.dwarf-fortress-full
 
     # Fonts
     nerdfonts

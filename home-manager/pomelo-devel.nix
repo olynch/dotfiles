@@ -26,7 +26,6 @@
   home.packages = with pkgs; [ ipe texmacs cachix racket ];
 
   home.sessionVariables = {
-    TEXMACS_PATH = "${pkgs.texmacs}/share/TeXmacs";
     TEXMACS_HOME_PATH = "$HOME/.TeXmacs";
   };
 }

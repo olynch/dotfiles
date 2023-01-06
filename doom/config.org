@@ -12,11 +12,15 @@
 
 (setq display-line-numbers-type t)
 
-(set-frame-parameter (selected-frame) 'alpha '(85 . 85))
-(add-to-list 'default-frame-alist '(alpha . (85 . 85)))
+(set-frame-parameter (selected-frame) 'alpha '(97 . 97))
+(add-to-list 'default-frame-alist '(alpha . (97 . 97)))
 
 (setq auth-sources '("~/.authinfo"))
+
+(setq explicit-shell-file-name "/run/current-system/sw/bin/bash")
+(setq shell-file-name "/run/current-system/sw/bin/bash")
 #+end_src
+
 ** Convenience Remaps
 #+begin_src elisp
 (map! :leader
@@ -71,6 +75,10 @@
 ** Julia
 #+begin_src elisp
 (setq-default julia-indent-offset 2)
+;; (setq lsp-julia-package-dir nil)
+;; (setq lsp-julia-flags `("-J/home/o/.local/julia/languageserver.so"))
+;; (setq lsp-julia-default-environment "~/.julia/environments/v1.6")
+(setq eglot-jl-language-server-project "~/.julia/environments/v1.6")
 #+end_src
 ** Nov
 #+begin_src elisp
@@ -85,10 +93,11 @@
 ** LaTeX
 
 #+begin_src elisp
-(add-hook! LaTeX-mode
-  (setq TeX-engine 'luatex))
-
 (setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
+
+;; This fixes annoying unmatching parentheses highlighting due to half-open intervals
+(after! tex
+  (remove-hook 'TeX-update-style-hook #'rainbow-deliters-mode))
 #+end_src
 
 ** Org
@@ -98,6 +107,10 @@
   (shell-command (concat "wl-paste > " file))
   (insert (concat "[[" file "]]"))
   (org-display-inline-images))
+
+(map! :after evil-org
+      :map evil-org-mode-map
+      :i "C-k" #'evil-insert-digraph)
 
 (setq org-agenda-skip-function-global '(org-agenda-skip-entry-if 'todo 'done))
 #+end_src
@@ -136,4 +149,41 @@
 
 (map! :leader
       "o z" '+zoom/open-link)
+#+end_src
+
+** Idris
+#+begin_src elisp
+;;Fixes lag when editing idris code with evil
+(defun ~/evil-motion-range--wrapper (fn &rest args)
+  "Like `evil-motion-range', but override field-beginning for performance.
+See URL `https://github.com/ProofGeneral/PG/issues/427'."
+  (cl-letf (((symbol-function 'field-beginning)
+             (lambda (&rest args) 1)))
+    (apply fn args)))
+
+(setq company-global-modes '(not idris2-mode idris2-repl-mode))
+(setq idris2-interpreter-flags '("--no-prelude"))
+#+end_src
+** Mastodon
+#+begin_src elisp
+(setq mastodon-instance-url "https://mathstodon.xyz"
+      mastodon-active-user "olynch")
+#+end_src
+** Quarto
+#+begin_src elisp
+(use-package! quarto-mode
+  :mode ("\\.qmd\\'" . poly-quarto-mode))
+#+end_src
+
+** Tidal
+#+begin_src elisp
+(setq tidal-boot-script-path "~/g/dotfiles/doom/BootTidal.hs")
+
+(map! :map tidal-mode-map
+ :n "C-RET" 'tidal-run-line)
+#+end_src
+
+** Ledger
+#+begin_src elisp
+(setq ledger-binary-path "hledger")
 #+end_src
